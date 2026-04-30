@@ -25,7 +25,7 @@ Le montant du paiement correspond au solde restant :
 (InvoicedAmount - PaidAmount)
 */
 
-INSERT INTO SoftizDB.dbo.Payment (
+INSERT INTO Payment (
 PaymentType,
 InvoiceId,
 Amount,
@@ -46,7 +46,7 @@ GETDATE(),
 @ProviderId,
 1, -- Paiement validé
 0
-FROM SoftizDB.dbo.Invoice
+FROM Invoice
 WHERE ProviderId = @ProviderId
 AND InvoicingPeriodId = @InvoicingPeriodId
 AND PaymentType = 4
@@ -63,13 +63,13 @@ le statut passe à "payée"
 
 */
 
-UPDATE SoftizDB.dbo.Invoice
+UPDATE Invoice
 SET
 PaidAmount = InvoicedAmount,
 PaymentStatus = 1 -- Facture soldée
 WHERE InvoiceId IN (
 SELECT InvoiceId
-FROM SoftizDB.dbo.Invoice
+FROM Invoice
 WHERE ProviderId = @ProviderId
 AND InvoicingPeriodId = @InvoicingPeriodId
 AND PaymentType = 4
