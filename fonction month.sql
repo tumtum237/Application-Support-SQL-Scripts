@@ -4,3 +4,11 @@ select count(ReservationId), DriverId, sum(InvoicedKm) as 'montant total', avg(I
   where state < 5 and Month(CreationDate) = MONTH(getdate()) --- month(la colonne en type date) = month(getdate()) pour cibler tout le mois en cours, ça peut être year pour l'année en cours
 group by DriverId
 having count(ReservationId) > 5
+
+
+
+---pareil mes dans les 30 derniers jours
+select count(ReservationId), DriverId, sum(InvoicedKm) as 'montant total', avg(InvoicedKm) as 'montant moyen' from Reservation 
+  where state < 5 and CreationDate >= (select (dateadd(day,-30,getdate()))) and Creationdate <= getdate()
+  group by DriverId
+having count(ReservationId) > 5
